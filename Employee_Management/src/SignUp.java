@@ -1,6 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,6 +8,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SignUp extends JFrame {
 
@@ -25,19 +25,19 @@ public class SignUp extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SignUp frame = new SignUp();
-					frame.setVisible(true);
-					frame.setResizable(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					SignUp frame = new SignUp();
+//					frame.setVisible(true);
+//					frame.setResizable(false);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -86,6 +86,26 @@ public class SignUp extends JFrame {
 		panel.add(passwordField);
 		
 		JButton btnSignup = new JButton("SignUp");
+		btnSignup.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				
+				DatabaseConnection obj = new DatabaseConnection();
+				try {
+					obj.connectToDB();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					//System.out.println(passwordField.getText());
+					obj.signup(textField.getText(), textField_1.getText(), passwordField.getText());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnSignup.setBounds(146, 174, 89, 23);
 		panel.add(btnSignup);
 	}

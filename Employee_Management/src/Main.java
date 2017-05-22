@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Main extends JFrame {
 
@@ -36,8 +38,9 @@ public class Main extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
-	public Main() {
+	public Main() throws Exception {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -55,11 +58,46 @@ public class Main extends JFrame {
 		panel.setLayout(null);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							Login frame = new Login();
+							frame.setVisible(true);
+							frame.setResizable(false);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				
+			}
+		});
 		btnLogin.setBounds(162, 55, 89, 23);
 		panel.add(btnLogin);
 		
 		JButton btnSignUp = new JButton("Sign Up");
+		btnSignUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							SignUp frame = new SignUp();
+							frame.setVisible(true);
+							frame.setResizable(false);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				
+			}
+		});
 		btnSignUp.setBounds(162, 113, 89, 23);
 		panel.add(btnSignUp);
+		
 	}
 }

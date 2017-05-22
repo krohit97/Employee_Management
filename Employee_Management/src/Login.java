@@ -1,6 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,6 +8,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
@@ -24,19 +24,19 @@ public class Login extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-					frame.setResizable(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Login frame = new Login();
+//					frame.setVisible(true);
+//					frame.setResizable(false);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -75,7 +75,37 @@ public class Login extends JFrame {
 		passwordField.setBounds(207, 121, 123, 20);
 		panel.add(passwordField);
 		
+		
+		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				
+				int logincheck = 0; //variable to check whether login was successful or not
+				DatabaseConnection obj = new DatabaseConnection();
+				try {
+					obj.connectToDB();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					System.out.println(passwordField.getText());
+					logincheck = obj.login(textField.getText(), passwordField.getText());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				if(logincheck == 0) {
+					//login successful
+				}
+				else if (logincheck == 1) {
+					//login failed
+				}
+			}
+		});
 		btnLogin.setBounds(161, 167, 89, 23);
 		panel.add(btnLogin);
 	}
