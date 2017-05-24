@@ -1,3 +1,4 @@
+import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -46,11 +47,25 @@ public class DatabaseConnection {
 			resultSet = statement
 					.executeQuery("select * from " + database + ".login WHERE uname = '"+name+"' AND password = '"+pass+"'");
 
-
 			//System.out.println(resultSet.getInt("uname"));
 			if(resultSet.isBeforeFirst()) {
 				System.out.println("Successful login!");
 				this.close();
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							String cname = null;
+							while (resultSet.next()) {
+								cname = resultSet.getString("company_name");
+							}
+							LoginSuccessful frame = new LoginSuccessful(cname, name, pass);
+							frame.setVisible(true);
+							frame.setResizable(false);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 				return 0;
 			}
 			else {
@@ -96,7 +111,18 @@ public class DatabaseConnection {
 					int check_insert = statement.executeUpdate("INSERT INTO `login` (company_name, uname, password) VALUES ('"+cname+"','"+name+"','"+pass+"')");
 					
 					if(check_insert != 0) {
-						System.out.println("Values added to table Successfully!");
+						System.out.println("Values added to table login Successfully!");
+						EventQueue.invokeLater(new Runnable() {
+							public void run() {
+								try {
+									Login frame = new Login();
+									frame.setVisible(true);
+									frame.setResizable(false);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						});
 					}
 					else {
 						System.out.println("Values addition failed!");
@@ -112,6 +138,10 @@ public class DatabaseConnection {
 			throw e;
 		}
 
+	}
+	public String employeeList(String cname, String name, String pass) {
+		
+		return null;
 	}
 	/*
 	 * Closing database connection
