@@ -91,7 +91,7 @@ public class Login extends JFrame {
 					e1.printStackTrace();
 				}
 				try {
-					System.out.println(passwordField.getText());
+					//System.out.println(passwordField.getText());
 					logincheck = obj.login(textField.getText(), passwordField.getText());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

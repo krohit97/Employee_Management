@@ -83,15 +83,19 @@ public class DatabaseConnection {
 			}
 			else {
 				System.out.println("Register Successful!");
-				resultSet = statement
-						.executeQuery("CREATE TABLE '" + cname + "'_employee ('name TEXT(50)','id VARCHAR(20)','phoneno BIGINT(10)','homeadd VARCHAR(100)','officeadd VARCHAR(100)','salary INT(20)','age INT(2)')");
+//				resultSet = statement
+//						.executeQuery("CREATE TABLE '" + cname + "'_employee (name TEXT(50),id VARCHAR(20),phoneno BIGINT(10),homeadd VARCHAR(100),officeadd VARCHAR(100),salary INT(20),age INT(2))");
 				
-				if(!resultSet.wasNull()) {
+				int check_create = statement.executeUpdate("CREATE TABLE `" + cname + "_employee` (name TEXT(50),id VARCHAR(20),phoneno BIGINT(10),homeadd VARCHAR(100),officeadd VARCHAR(100),salary INT(20),age INT(2))");
+				
+				if(check_create == 0) {
 					System.out.println("Table created successfully Successfully!");
-					resultSet = statement
-							.executeQuery("INSERT INTO '"+cname+"'_employee ('name','id','phoneno','homeadd','officeadd','salary','age') VALUES ('sumit kumar','shr15','9712508221','khora colony','greater noida','80000','20')");
+//					resultSet = statement
+//							.executeQuery("INSERT INTO '"+cname+"'_employee (name,id,phoneno,homeadd,officeadd,salary,age) VALUES ('sumit kumar','shr15','9712508221','khora colony','greater noida','80000','20')");
 					
-					if(!resultSet.wasNull()) {
+					int check_insert = statement.executeUpdate("INSERT INTO `login` (company_name, uname, password) VALUES ('"+cname+"','"+name+"','"+pass+"')");
+					
+					if(check_insert != 0) {
 						System.out.println("Values added to table Successfully!");
 					}
 					else {
