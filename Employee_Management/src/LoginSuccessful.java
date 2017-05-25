@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -68,6 +69,7 @@ public class LoginSuccessful extends JFrame {
 						try {
 							EmployeeList frame = new EmployeeList(cname, name, pass);
 							frame.setVisible(true);
+							frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

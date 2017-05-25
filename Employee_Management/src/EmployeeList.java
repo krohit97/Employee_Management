@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.sql.SQLException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -33,8 +35,9 @@ public class EmployeeList extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public EmployeeList(String cname, String name, String pass) {
+	public EmployeeList(String cname, String name, String pass) throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -54,7 +57,7 @@ public class EmployeeList extends JFrame {
 		}
 		
 		String res = obj.employeeList(cname, name, pass);
-		
+		textArea.setText(res);
 	}
 
 }

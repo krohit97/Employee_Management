@@ -1,8 +1,10 @@
 import java.awt.EventQueue;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseConnection {
@@ -50,7 +52,7 @@ public class DatabaseConnection {
 			//System.out.println(resultSet.getInt("uname"));
 			if(resultSet.isBeforeFirst()) {
 				System.out.println("Successful login!");
-				this.close();
+				//this.close();
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
@@ -139,9 +141,28 @@ public class DatabaseConnection {
 		}
 
 	}
-	public String employeeList(String cname, String name, String pass) {
+	public String employeeList(String cname, String name, String pass) throws SQLException {
 		
-		return null;
+		statement = connect.createStatement();
+		resultSet = statement
+				.executeQuery("select * from `"+cname+"_employee`");
+
+		String str="ename" + "\t" + "id" + "\t" + "phoneno" + "\t" + "homeadd" + "\t" + "officeadd"  + "\t" + "salary" + "\t" + "age" + "\n";
+		if(resultSet.isBeforeFirst()) {
+			while (resultSet.next()) {
+				//BigInteger phoneno;
+				String ename = resultSet.getString("name");
+				String id = resultSet.getString("id");
+				String phoneno = resultSet.getString("phoneno");
+				//phoneno = BigInteger.valueOf(resultSet.getInt("phoneno"));
+				String homeadd = resultSet.getString("homeadd");
+				String officeadd = resultSet.getString("officeadd");
+				int salary = resultSet.getInt("salary");
+				int age = resultSet.getInt("age");
+				str += ename + "\t" + id + "\t" + phoneno + "\t" + homeadd + "\t" + officeadd  + "\t" + salary + "\t" + age + "\n";
+			}
+		}
+		return str;
 	}
 	/*
 	 * Closing database connection
