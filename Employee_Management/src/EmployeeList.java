@@ -4,9 +4,6 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
-import javax.swing.JTextPane;
-import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
 public class EmployeeList extends JFrame {
@@ -55,7 +52,9 @@ public class EmployeeList extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		/*
+		 * Variable: res to store the data string from database of employee data
+		 */
 		String res = obj.employeeList(cname, name, pass);
 		textArea.setText(res);
 	}

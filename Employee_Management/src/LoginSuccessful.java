@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -58,6 +57,21 @@ public class LoginSuccessful extends JFrame {
 		panel.setLayout(null);
 		
 		JButton btnAddEmployee = new JButton("Add Employee");
+		btnAddEmployee.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							AddEmployee frame = new AddEmployee(cname, name, pass);
+							frame.setVisible(true);
+							frame.setResizable(false);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		btnAddEmployee.setBounds(149, 73, 116, 23);
 		panel.add(btnAddEmployee);
 		
@@ -69,7 +83,8 @@ public class LoginSuccessful extends JFrame {
 						try {
 							EmployeeList frame = new EmployeeList(cname, name, pass);
 							frame.setVisible(true);
-							frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
+							frame.setSize(1000, 500);
+							//frame.setResizable(false);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

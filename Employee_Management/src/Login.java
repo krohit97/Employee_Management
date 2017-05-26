@@ -82,7 +82,6 @@ public class Login extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
-				int logincheck = 0; //variable to check whether login was successful or not
 				DatabaseConnection obj = new DatabaseConnection();
 				try {
 					obj.connectToDB();
@@ -91,18 +90,10 @@ public class Login extends JFrame {
 					e1.printStackTrace();
 				}
 				try {
-					//System.out.println(passwordField.getText());
-					logincheck = obj.login(textField.getText(), passwordField.getText());
+					obj.login(textField.getText(), passwordField.getText());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
-				
-				if(logincheck == 0) {
-					//login successful
-				}
-				else if (logincheck == 1) {
-					//login failed
 				}
 			}
 		});

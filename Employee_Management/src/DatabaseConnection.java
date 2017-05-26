@@ -1,5 +1,4 @@
 import java.awt.EventQueue;
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,7 +41,7 @@ public class DatabaseConnection {
 	/*
 	 * Login execution  
 	 */
-	public int login(String name, String pass) throws Exception {
+	public void login(String name, String pass) throws Exception {
 		//System.out.println(name + pass);
 		try {
 			statement = connect.createStatement();
@@ -68,13 +67,11 @@ public class DatabaseConnection {
 						}
 					}
 				});
-				return 0;
 			}
 			else {
-				System.out.println("Successful failed!");
+				System.out.println("Login failed!");
 				System.out.println("Either uname or password or both incorrect");
 				this.close();
-				return 1;
 			}
 		} catch (Exception e) {
 			throw e;
@@ -84,32 +81,29 @@ public class DatabaseConnection {
 	/*
 	 * SignUp execute
 	 */
-	public int signup(String cname, String name, String pass) throws Exception {
-		//System.out.println(name + pass);
+	public void signup(String cname, String name, String pass) throws Exception {
 		try {
 			statement = connect.createStatement();
 			resultSet = statement
 					.executeQuery("select * from " + database + ".login WHERE uname = '"+name+"' AND password = '"+pass+"'");
 
 
-			//System.out.println(resultSet.getInt("uname"));
 			if(resultSet.isBeforeFirst()) {
 				System.out.println("Company already exists with this uname");
 				this.close();
-				return 0;
 			}
 			else {
 				System.out.println("Register Successful!");
-//				resultSet = statement
-//						.executeQuery("CREATE TABLE '" + cname + "'_employee (name TEXT(50),id VARCHAR(20),phoneno BIGINT(10),homeadd VARCHAR(100),officeadd VARCHAR(100),salary INT(20),age INT(2))");
-				
+				/*
+				 * check_create : this variable checks whether table is create successfully or not
+				 */
 				int check_create = statement.executeUpdate("CREATE TABLE `" + cname + "_employee` (name TEXT(50),id VARCHAR(20),phoneno BIGINT(10),homeadd VARCHAR(100),officeadd VARCHAR(100),salary INT(20),age INT(2))");
 				
 				if(check_create == 0) {
 					System.out.println("Table created successfully Successfully!");
-//					resultSet = statement
-//							.executeQuery("INSERT INTO '"+cname+"'_employee (name,id,phoneno,homeadd,officeadd,salary,age) VALUES ('sumit kumar','shr15','9712508221','khora colony','greater noida','80000','20')");
-					
+					/*
+					 * check_insert : this variable checks whether value added to table login successfully or not
+					 */
 					int check_insert = statement.executeUpdate("INSERT INTO `login` (company_name, uname, password) VALUES ('"+cname+"','"+name+"','"+pass+"')");
 					
 					if(check_insert != 0) {
@@ -134,13 +128,15 @@ public class DatabaseConnection {
 					System.out.println("Table creation failed");
 				}
 				this.close();
-				return 1;
 			}
 		} catch (Exception e) {
 			throw e;
 		}
 
 	}
+	/*
+	 * Display Employee List
+	 */
 	public String employeeList(String cname, String name, String pass) throws SQLException {
 		
 		statement = connect.createStatement();
@@ -150,19 +146,38 @@ public class DatabaseConnection {
 		String str="ename" + "\t" + "id" + "\t" + "phoneno" + "\t" + "homeadd" + "\t" + "officeadd"  + "\t" + "salary" + "\t" + "age" + "\n";
 		if(resultSet.isBeforeFirst()) {
 			while (resultSet.next()) {
-				//BigInteger phoneno;
-				String ename = resultSet.getString("name");
-				String id = resultSet.getString("id");
-				String phoneno = resultSet.getString("phoneno");
-				//phoneno = BigInteger.valueOf(resultSet.getInt("phoneno"));
-				String homeadd = resultSet.getString("homeadd");
-				String officeadd = resultSet.getString("officeadd");
-				int salary = resultSet.getInt("salary");
-				int age = resultSet.getInt("age");
+				final String ename = resultSet.getString("name");
+				final String id = resultSet.getString("id");
+				final String phoneno = resultSet.getString("phoneno");
+				final String homeadd = resultSet.getString("homeadd");
+				final String officeadd = resultSet.getString("officeadd");
+				final int salary = resultSet.getInt("salary");
+				final int age = resultSet.getInt("age");
 				str += ename + "\t" + id + "\t" + phoneno + "\t" + homeadd + "\t" + officeadd  + "\t" + salary + "\t" + age + "\n";
 			}
 		}
 		return str;
+	}
+	/*
+	 * Add Employee
+	 */
+	public int add(String cname, String name, String id, String phoneno, String homeadd, String officeadd, String salary, String age) throws SQLException {
+		
+		statement = connect.createStatement();
+		int check_insert=0;
+		try {
+			check_insert = statement.executeUpdate("INSERT INTO `"+cname+"_employee` (name, id, phoneno, homeadd, officeadd, salary, age) VALUES ('"+name+"','"+id+"','"+phoneno+"','"+homeadd+"','"+officeadd+"','"+salary+"','"+age+"')");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(check_insert != 0) {
+			System.out.println("Employee Added Successfully!");
+		}
+		else {
+			System.out.println("Adding Employee Failed!");
+		}
+		return 0;
 	}
 	/*
 	 * Closing database connection
